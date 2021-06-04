@@ -41,9 +41,10 @@ public class Main {
 //
 //        }
 
-        Employee employee = new Employee(new FastCoder(), new GoodDesigner());
+        Employee employee = new Employee(new FastCoder(), new GoodDesigner(), new DangerousTester());
         employee.code();
         employee.design();
+        employee.tester();
     }
 }
 
@@ -84,15 +85,25 @@ interface WhoCanCode{
 interface WhoCanDesign{
     void design();
 }
+interface WhoCanTest{
+    void tester();
+}
 
-class Employee implements WhoCanCode, WhoCanDesign{
+class Employee implements WhoCanCode, WhoCanDesign, WhoCanTest{
 
     WhoCanCode whoCanCode;
     WhoCanDesign whoCanDesign;
+    WhoCanTest whoCanTest;
 
-    public Employee(WhoCanCode whoCanCode, WhoCanDesign whoCanDesign) {
+    public Employee(WhoCanCode whoCanCode, WhoCanDesign whoCanDesign, WhoCanTest whoCanTest) {
         this.whoCanCode = whoCanCode;
         this.whoCanDesign = whoCanDesign;
+        this.whoCanTest = whoCanTest;
+    }
+
+    @Override
+    public void tester() {
+        whoCanTest.tester();
     }
 
     @Override
@@ -103,6 +114,12 @@ class Employee implements WhoCanCode, WhoCanDesign{
     @Override
     public void code() {
         whoCanDesign.design();
+    }
+}
+class DangerousTester implements WhoCanTest{
+    @Override
+    public void tester() {
+        System.out.println("Software being test by a dangerous tester.");
     }
 }
 
